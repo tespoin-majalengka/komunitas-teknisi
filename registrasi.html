@@ -64,6 +64,7 @@ textarea{min-height:70px;resize:vertical}
     <div><label>Tanggal Acara</label><input id="eventDate" type="date" required></div>
     <div><label>Biaya Registrasi</label><div class="price">Rp <span id="fee">0</span></div></div>
    </div>
+   <div style="margin-top:10px;font-size:11px"><a href="pengaturan-biaya.html" style="color:#b77900;font-weight:800">⚙️ Pengaturan biaya pendaftaran</a></div>
    <div class="info">Setelah registrasi, peserta mendapatkan nomor registrasi. Pembayaran dapat diverifikasi panitia. Tiket <b>LUNAS</b> menjadi bukti masuk dan memiliki barcode unik.</div>
   </section>
 
@@ -114,13 +115,23 @@ textarea{min-height:70px;resize:vertical}
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script>
-const feeByEvent={
+const defaultFees={
  "Pelatihan Teknisi Ponsel":100000,
  "Gathering Teknisi Ponsel":75000,
  "Kegiatan Komunitas":50000
 };
+function getFeeSettings(){
+ try{return {...defaultFees,...JSON.parse(localStorage.getItem('tpm_fee_settings')||'{}')}}
+ catch(e){return {...defaultFees}}
+}
+let feeByEvent=getFeeSettings();
 const eventEl=document.getElementById('event'), feeEl=document.getElementById('fee');
-eventEl.onchange=()=>feeEl.textContent=(feeByEvent[eventEl.value]||0).toLocaleString('id-ID');
+function refreshFee(){
+ feeByEvent=getFeeSettings();
+ feeEl.textContent=(feeByEvent[eventEl.value]||0).toLocaleString('id-ID');
+}
+eventEl.onchange=refreshFee;
+refreshFee();
 
 function makeId(){
  const d=new Date(), stamp=d.getFullYear().toString().slice(2)+

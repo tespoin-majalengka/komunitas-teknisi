@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffc107">
+<title>Pengaturan Biaya | Teknisi Ponsel Majalengka</title>
+<style>
+*{box-sizing:border-box}
+:root{--b:#0b0f14;--y:#ffc107;--bg:#f3f5f7;--line:#e5e7eb;--g:#16a34a;--r:#dc2626}
+body{margin:0;background:var(--bg);color:#17202a;font-family:Arial,Helvetica,sans-serif}
+.header{background:linear-gradient(135deg,#0b0f14,#202731);color:#fff;padding:18px 14px;border-bottom:4px solid var(--y)}
+.top{max-width:850px;margin:auto;display:flex;align-items:center;gap:10px}
+.logo{width:48px;height:48px;border-radius:12px;overflow:hidden;background:#fff}
+.logo img{width:100%;height:100%;object-fit:cover}
+.top b{font-size:15px}.top small{display:block;color:#cbd5e1;margin-top:3px}
+.wrap{max-width:850px;margin:auto;padding:16px 12px 40px}
+h2{font-size:23px;margin:5px 0}.desc{font-size:12px;color:#6b7280;line-height:1.6;margin-bottom:15px}
+.box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:13px;box-shadow:0 3px 12px #00000009}
+.box h3{margin:0 0 13px;font-size:15px}
+.row{border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;background:#fafbfc}
+.row-title{font-weight:800;font-size:13px;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:11px;font-weight:700;margin-bottom:5px}
+input{width:100%;padding:11px;border:1px solid #d5d9de;border-radius:9px;font-size:13px}
+button{border:0;border-radius:9px;padding:11px 15px;font-weight:800;font-size:12px;cursor:pointer}
+.save{background:var(--y);color:#111;width:100%;margin-top:5px}
+.reset{background:#e5e7eb;color:#111;width:100%;margin-top:8px}
+.add{background:#0b0f14;color:#fff}
+.delete{background:#fee2e2;color:#991b1b;margin-top:8px;width:100%}
+.notice{padding:12px;border-radius:10px;background:#fff8dc;border:1px solid #f1d46b;font-size:11px;line-height:1.6;margin-bottom:12px}
+.ok{display:none;padding:11px;border-radius:9px;background:#dcfce7;color:#166534;font-size:11px;font-weight:700;margin-bottom:12px}
+.ok.show{display:block}
+.back{font-size:12px;color:#374151}
+.total{font-size:12px;color:#6b7280;margin-top:8px}.total b{color:#111}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+ <div class="top">
+  <div class="logo"><img src="logo.jpg" alt="Logo TESPOIN"></div>
+  <div><b>TEKNISI PONSEL MAJALENGKA</b><small>Pengaturan Acara & Biaya Registrasi</small></div>
+ </div>
+</header>
+
+<main class="wrap">
+ <a class="back" href="index.html">← Kembali ke halaman utama</a>
+ <h2>Pengaturan Biaya Pendaftaran</h2>
+ <div class="desc">Biaya di halaman ini digunakan oleh halaman <b>Registrasi Acara</b>. Panitia dapat mengubah biaya tanpa mengedit kode HTML.</div>
+
+ <div class="notice">
+   ⚠️ <b>Catatan:</b> saat ini pengaturan tersimpan di browser perangkat ini. Untuk sistem acara sebenarnya, pengaturan sebaiknya disimpan di Firebase agar seluruh panitia dan peserta memakai data biaya yang sama.
+ </div>
+
+ <section class="box">
+  <h3>Daftar Biaya Acara</h3>
+  <div id="rows"></div>
+  <button class="add" type="button" onclick="addEvent()">＋ Tambah Acara</button>
+  <div class="total">Jumlah acara: <b id="count">0</b></div>
+ </section>
+
+ <section class="box">
+  <h3>Simpan Pengaturan</h3>
+  <div id="saved" class="ok">✓ Pengaturan biaya berhasil disimpan.</div>
+  <button class="save" onclick="save()">💾 SIMPAN BIAYA</button>
+  <button class="reset" onclick="resetDefault()">↺ KEMBALIKAN DEFAULT</button>
+ </section>
+</main>
+
+<script>
+const defaults={
+ "Pelatihan Teknisi Ponsel":100000,
+ "Gathering Teknisi Ponsel":75000,
+ "Kegiatan Komunitas":50000
+};
+
+let data=load();
+
+function load(){
+ try{
+  const x=JSON.parse(localStorage.getItem('tpm_fee_settings'));
+  return x && typeof x==='object' ? x : {...defaults};
+ }catch(e){return {...defaults}}
+}
+
+function rupiah(n){
+ return Number(n||0).toLocaleString('id-ID');
+}
+
+function render(){
+ const box=document.getElementById('rows');
+ box.innerHTML='';
+ Object.entries(data).forEach(([name,fee],i)=>{
+  const row=document.createElement('div');
+  row.className='row';
+  row.innerHTML=`
+   <div class="row-title">Acara ${i+1}</div>
+   <label>Nama Acara</label>
+   <input class="eventName" value="${escapeHtml(name)}" placeholder="Nama acara">
+   <div class="grid" style="margin-top:9px">
+    <div>
+     <label>Biaya Pendaftaran (Rp)</label>
+     <input class="eventFee" type="number" min="0" step="1000" value="${Number(fee)||0}">
+    </div>
+    <div style="display:flex;align-items:end">
+     <div style="font-size:11px;color:#6b7280">Tampil sebagai<br><b>Rp ${rupiah(fee)}</b></div>
+    </div>
+   </div>
+   <button class="delete" type="button" onclick="removeEvent(${i})">🗑 Hapus Acara</button>
+  `;
+  box.appendChild(row);
+ });
+ document.getElementById('count').textContent=Object.keys(data).length;
+}
+
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function collect(){
+ const names=[...document.querySelectorAll('.eventName')];
+ const fees=[...document.querySelectorAll('.eventFee')];
+ const out={};
+ names.forEach((el,i)=>{
+  const name=el.value.trim();
+  if(name) out[name]=Math.max(0,Number(fees[i].value)||0);
+ });
+ return out;
+}
+
+function save(){
+ const out=collect();
+ if(!Object.keys(out).length){alert('Minimal harus ada 1 acara.');return}
+ data=out;
+ localStorage.setItem('tpm_fee_settings',JSON.stringify(data));
+ render();
+ const s=document.getElementById('saved');s.classList.add('show');
+ setTimeout(()=>s.classList.remove('show'),2200);
+}
+
+function addEvent(){
+ const base='Acara Baru';
+ let name=base,n=2;
+ while(data[name]!==undefined){name=base+' '+n++}
+ data[name]=0;render();
+ window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+
+function removeEvent(i){
+ const entries=Object.entries(data);
+ if(entries.length<=1){alert('Minimal harus ada 1 acara.');return}
+ delete data[entries[i][0]];
+ render();
+}
+
+function resetDefault(){
+ data={...defaults};
+ localStorage.setItem('tpm_fee_settings',JSON.stringify(data));
+ render();
+ const s=document.getElementById('saved');s.textContent='✓ Biaya dikembalikan ke pengaturan default.';s.classList.add('show');
+ setTimeout(()=>{s.classList.remove('show');s.textContent='✓ Pengaturan biaya berhasil disimpan.'},2200);
+}
+render();
+</script>
+</body>
+</html>
