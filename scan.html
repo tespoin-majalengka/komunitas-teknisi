@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Scan Barcode</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b0f14;color:#fff;font-family:Arial}.head{padding:17px;border-bottom:3px solid #ffc107}.head b{color:#ffc107}.wrap{max-width:650px;margin:auto;padding:15px}.box{background:#151a21;border:1px solid #303741;border-radius:15px;padding:15px;margin-bottom:12px}h2{margin:0 0 5px;font-size:21px}.sub{font-size:11px;color:#aeb7c2;margin-bottom:13px}#reader{background:#fff;border-radius:12px;overflow:hidden}.result{display:none}.result.show{display:block}.ok{background:#14532d;border:1px solid #22c55e;padding:15px;border-radius:12px}.bad{background:#450a0a;border:1px solid #ef4444;padding:15px;border-radius:12px}.row{font-size:12px;line-height:1.8}.btn{border:0;border-radius:9px;padding:10px 13px;font-weight:bold}.green{background:#22c55e}.red{background:#ef4444;color:#fff}.back{color:#ffc107;font-size:12px}
+</style>
+</head><body>
+<header class="head"><b>TEKNISI PONSEL MAJALENGKA</b><div style="font-size:11px;color:#aaa;margin-top:4px">Check-in Peserta • Scan Barcode</div></header>
+<main class="wrap">
+<a class="back" href="index.html">← Kembali</a>
+<div class="box"><h2>SCAN BARCODE PESERTA</h2><div class="sub">Arahkan kamera ke barcode pada bukti peserta. Panitia harus mencocokkan data sebelum menyetujui check-in.</div><div id="reader"></div></div>
+<div id="result" class="result"></div>
+</main>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+function regs(){return JSON.parse(localStorage.getItem('tpm_registrasi')||'[]')}
+function save(a){localStorage.setItem('tpm_registrasi',JSON.stringify(a))}
+function show(id){
+ const r=document.getElementById('result'),x=regs().find(v=>v.id===id);r.className='result show';
+ if(!x){r.innerHTML='<div class="bad"><b>BARCODE TIDAK DITEMUKAN</b><div class="row">Nomor registrasi tidak ada di database perangkat ini.</div></div>';return}
+ if(x.status!=='LUNAS'){r.innerHTML=`<div class="bad"><b>DITOLAK — BELUM LUNAS</b><div class="row">Nama: ${x.name}<br>Acara: ${x.event}<br>No: ${x.id}<br>Status: ${x.status}</div></div>`;return}
+ if(x.checkedIn){r.innerHTML=`<div class="ok"><b>SUDAH CHECK-IN</b><div class="row">Nama: ${x.name}<br>No: ${x.id}<br>Waktu: ${new Date(x.checkedInAt).toLocaleString('id-ID')}</div></div>`;return}
+ r.innerHTML=`<div class="ok"><b>BARCODE COCOK — MENUNGGU PERSETUJUAN PANITIA</b><div class="row">Nama: <b>${x.name}</b><br>Acara: ${x.event}<br>No Registrasi: <b>${x.id}</b><br>Status: LUNAS</div><button class="btn green" onclick="approve('${x.id}')">✓ SETUJUI & CHECK-IN</button> <button class="btn red" onclick="resetScan()">BATAL</button></div>`;
+}
+function approve(id){let a=regs(),x=a.find(v=>v.id===id);if(!x)return;x.checkedIn=true;x.checkedInAt=new Date().toISOString();save(a);show(id)}
+function resetScan(){location.reload()}
+function onScan(decoded){show(decoded);try{scanner.clear()}catch(e){}}
+const scanner=new Html5QrcodeScanner("reader",{fps:10,qrbox:{width:250,height:120}},false);scanner.render(onScan,()=>{});
+</script></body></html>

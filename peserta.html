@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laporan Peserta</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f5f7;font-family:Arial;color:#17202a}:root{--b:#0b0f14;--y:#ffc107;--g:#16a34a;--r:#dc2626}
+header{background:var(--b);color:#fff;padding:18px;border-bottom:4px solid var(--y)}main{max-width:1000px;margin:auto;padding:15px}
+h2{margin:0 0 5px}.sub{font-size:11px;color:#cbd5e1}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat,.box{background:#fff;border:1px solid #e5e7eb;border-radius:13px;padding:14px}.stat b{font-size:23px}.stat small{display:block;color:#6b7280;margin-top:4px}.toolbar{display:flex;gap:8px;margin-bottom:10px}.toolbar input,.toolbar select{flex:1;padding:10px;border:1px solid #ddd;border-radius:9px}.row{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px}.row strong{font-size:13px}.meta{font-size:11px;color:#6b7280;line-height:1.7}.pill{display:inline-block;padding:5px 8px;border-radius:15px;font-size:10px;font-weight:bold}.paid{background:#dcfce7;color:#166534}.unpaid{background:#fff3cd;color:#856404}.actions button{border:0;border-radius:8px;padding:8px;margin:4px 4px 0 0;font-size:11px;font-weight:bold}.ok{background:#16a34a;color:#fff}.warn{background:#ffc107}.empty{text-align:center;color:#6b7280;padding:25px}.back{display:inline-block;margin:10px 0;font-size:12px}
+@media(max-width:600px){.stats{grid-template-columns:1fr 1fr}.toolbar{flex-direction:column}}
+</style></head><body>
+<header><b>TEKNISI PONSEL MAJALENGKA</b><div class="sub">Laporan & Verifikasi Pembayaran Peserta</div></header>
+<main><a class="back" href="index.html">← Kembali</a><h2>Laporan Peserta</h2><div class="sub" style="color:#6b7280">Pisahkan peserta LUNAS dan BELUM LUNAS.</div>
+<div class="stats"><div class="stat"><b id="total">0</b><small>Total Registrasi</small></div><div class="stat"><b id="paid">0</b><small>Sudah Lunas</small></div><div class="stat"><b id="unpaid">0</b><small>Belum Lunas</small></div></div>
+<div class="toolbar"><input id="search" placeholder="Cari nama / nomor registrasi"><select id="filter"><option value="ALL">Semua</option><option value="LUNAS">LUNAS</option><option value="BELUM LUNAS">BELUM LUNAS</option></select></div>
+<div id="list"></div></main>
+<script>
+function regs(){return JSON.parse(localStorage.getItem('tpm_registrasi')||'[]')}
+function save(a){localStorage.setItem('tpm_registrasi',JSON.stringify(a))}
+function render(){
+ const a=regs();document.getElementById('total').textContent=a.length;document.getElementById('paid').textContent=a.filter(x=>x.status==='LUNAS').length;document.getElementById('unpaid').textContent=a.filter(x=>x.status!=='LUNAS').length;
+ const q=document.getElementById('search').value.toLowerCase(), f=document.getElementById('filter').value;
+ const data=a.filter(x=>(f==='ALL'||x.status===f)&&((x.name+' '+x.id+' '+x.event).toLowerCase().includes(q)));
+ const box=document.getElementById('list');box.innerHTML='';
+ if(!data.length){box.innerHTML='<div class="empty">Belum ada data yang cocok.</div>';return}
+ data.forEach(x=>{
+  const d=document.createElement('div');d.className='row';
+  d.innerHTML=`<strong>${x.name}</strong> <span class="pill ${x.status==='LUNAS'?'paid':'unpaid'}">${x.status}</span>
+  <div class="meta">No: <b>${x.id}</b><br>Acara: ${x.event}<br>WA: ${x.wa}<br>Biaya: Rp ${(x.fee||0).toLocaleString('id-ID')}<br>Metode: ${x.method}</div>
+  <div class="actions">${x.status!=='LUNAS'?'<button class="ok" onclick="lunas(\''+x.id+'\')">✓ SETUJUI LUNAS</button><button class="warn" onclick="ingat(\''+x.id+'\')">KIRIM PEMBERITAHUAN</button>':'<button class="ok" onclick="tiket(\''+x.id+'\')">LIHAT BUKTI LUNAS</button>'}</div>`;
+  box.appendChild(d);
+ })
+}
+function lunas(id){let a=regs(),x=a.find(v=>v.id===id);if(!x)return;x.status='LUNAS';x.paidAt=new Date().toISOString();save(a);render()}
+function waNumber(s){let n=s.replace(/\D/g,'');return n.startsWith('0')?'62'+n.slice(1):n}
+function ingat(id){const x=regs().find(v=>v.id===id);if(!x)return;location.href='https://wa.me/'+waNumber(x.wa)+'?text='+encodeURIComponent(`Pemberitahuan Registrasi ${x.event}\n\nHalo ${x.name}, data registrasi Anda dengan nomor ${x.id} masih tercatat BELUM LUNAS.\nSilakan melakukan pembayaran dan konfirmasi kepada panitia.`)}
+function tiket(id){const x=regs().find(v=>v.id===id);if(!x)return;alert(`STATUS LUNAS\n\n${x.name}\n${x.event}\nNomor: ${x.id}\n\nNomor ini digunakan untuk barcode saat check-in.`)}
+document.getElementById('search').oninput=render;document.getElementById('filter').onchange=render;render();
+</script></body></html>

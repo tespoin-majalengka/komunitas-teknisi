@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffc107">
+<title>Registrasi Acara | Teknisi Ponsel Majalengka</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f5f7;color:#17202a;font-family:Arial,sans-serif}
+:root{--b:#0b0f14;--y:#ffc107;--g:#16a34a;--r:#dc2626;--line:#e5e7eb}
+.header{background:linear-gradient(135deg,#0b0f14,#202731);color:#fff;padding:18px 14px;border-bottom:4px solid var(--y)}
+.top{max-width:850px;margin:auto;display:flex;align-items:center;gap:10px}
+.logo{width:48px;height:48px;border-radius:12px;overflow:hidden;background:#fff}.logo img{width:100%;height:100%;object-fit:cover}
+.top b{font-size:15px}.top small{display:block;color:#cbd5e1;margin-top:3px}
+.wrap{max-width:850px;margin:auto;padding:16px 12px 40px}
+.title h2{margin:4px 0 5px;font-size:23px}.title p{margin:0 0 16px;color:#6b7280;font-size:12px}
+.box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:13px;box-shadow:0 3px 12px #00000009}
+.box h3{margin:0 0 13px;font-size:15px}
+label{display:block;font-size:12px;font-weight:700;margin:11px 0 5px}
+input,select,textarea{width:100%;border:1px solid #d7dce1;border-radius:9px;padding:11px;font-size:13px;background:#fff}
+textarea{min-height:70px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info{background:#fff8dc;border:1px solid #f1d46b;padding:12px;border-radius:10px;font-size:11px;line-height:1.6}
+.price{font-size:22px;font-weight:900;margin-top:5px}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;font-size:13px}
+.primary{background:var(--y);color:#111;width:100%;margin-top:14px}
+.back{display:inline-block;margin-top:4px;font-size:12px;color:#374151}
+.result{display:none;text-align:center}.result.show{display:block}
+.status{display:inline-block;padding:6px 10px;border-radius:20px;font-weight:800;font-size:11px}
+.pending{background:#fff3cd;color:#856404}.paid{background:#dcfce7;color:#166534}
+.ticket{border:2px dashed #cbd5e1;border-radius:15px;padding:15px;margin-top:13px}
+.ticket h3{margin:0 0 4px}.ticket p{font-size:11px;color:#6b7280}
+#barcode{max-width:100%;height:85px}
+.wa{background:#16a34a;color:white;width:100%;margin-top:8px}
+.note{font-size:10px;color:#6b7280;line-height:1.5;margin-top:10px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+ <div class="top">
+  <div class="logo"><img src="logo.jpg" alt="Logo TESPOIN"></div>
+  <div><b>TEKNISI PONSEL MAJALENGKA</b><small>Pusat Registrasi Acara Komunitas</small></div>
+ </div>
+</header>
+
+<main class="wrap">
+ <div class="title">
+  <h2>Registrasi Acara</h2>
+  <p>Isi data peserta dengan benar. Status pembayaran akan dipisahkan menjadi <b>Belum Lunas</b> dan <b>Lunas</b>.</p>
+ </div>
+
+ <form id="formReg">
+  <section class="box">
+   <h3>1. Pilih Acara</h3>
+   <label>Nama Acara</label>
+   <select id="event" required>
+    <option value="">-- Pilih acara --</option>
+    <option value="Pelatihan Teknisi Ponsel">Pelatihan Teknisi Ponsel</option>
+    <option value="Gathering Teknisi Ponsel">Gathering Teknisi Ponsel</option>
+    <option value="Kegiatan Komunitas">Kegiatan Komunitas</option>
+   </select>
+   <div class="grid">
+    <div><label>Tanggal Acara</label><input id="eventDate" type="date" required></div>
+    <div><label>Biaya Registrasi</label><div class="price">Rp <span id="fee">0</span></div></div>
+   </div>
+   <div class="info">Setelah registrasi, peserta mendapatkan nomor registrasi. Pembayaran dapat diverifikasi panitia. Tiket <b>LUNAS</b> menjadi bukti masuk dan memiliki barcode unik.</div>
+  </section>
+
+  <section class="box">
+   <h3>2. Data Peserta</h3>
+   <div class="grid">
+    <div><label>Nama Lengkap</label><input id="name" required placeholder="Nama peserta"></div>
+    <div><label>No. WhatsApp</label><input id="wa" required inputmode="tel" placeholder="08xxxxxxxxxx"></div>
+   </div>
+   <div class="grid">
+    <div><label>Nama Konter / Usaha</label><input id="shop" placeholder="Nama konter"></div>
+    <div><label>Kota / Kabupaten</label><input id="city" value="Majalengka"></div>
+   </div>
+   <label>Status Keanggotaan</label>
+   <select id="member">
+    <option>Anggota TESPOIN</option><option>Teknisi</option><option>Umum</option>
+   </select>
+   <label>Alamat</label><textarea id="address" placeholder="Alamat peserta"></textarea>
+  </section>
+
+  <section class="box">
+   <h3>3. Pembayaran</h3>
+   <label>Metode Pembayaran</label>
+   <select id="method"><option>Transfer Bank</option><option>QRIS</option><option>Tunai kepada Panitia</option></select>
+   <label>Catatan Pembayaran</label>
+   <input id="payNote" placeholder="Contoh: transfer 19 September 2026">
+   <div class="info" style="margin-top:12px">Status awal otomatis <b>BELUM LUNAS</b>. Setelah panitia mencocokkan pembayaran, status diubah menjadi <b>LUNAS</b>. Hanya peserta LUNAS yang mendapatkan tiket barcode untuk pemeriksaan di lokasi.</div>
+  </section>
+
+  <button class="btn primary" type="submit">DAFTAR SEKARANG</button>
+ </form>
+
+ <section id="result" class="box result">
+  <span id="status" class="status pending">BELUM LUNAS</span>
+  <div class="ticket">
+   <h3 id="ticketEvent">-</h3>
+   <p>Nomor Registrasi: <b id="regNo">-</b></p>
+   <p>Peserta: <b id="ticketName">-</b></p>
+   <svg id="barcode"></svg>
+   <p id="ticketMsg">Simpan nomor registrasi. Setelah pembayaran disetujui panitia, tiket barcode dapat digunakan di lokasi acara.</p>
+  </div>
+  <button class="btn wa" id="sendWa">KIRIM BUKTI REGISTRASI KE WHATSAPP</button>
+  <div class="note">Catatan: versi ini menyimpan data di perangkat/browser untuk prototipe. Untuk dipakai banyak peserta dan banyak panitia, data perlu dipindahkan ke Firebase agar status lunas, laporan, dan scan dapat tersinkron antar perangkat.</div>
+ </section>
+
+ <a class="back" href="index.html">← Kembali ke halaman utama</a>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script>
+const feeByEvent={
+ "Pelatihan Teknisi Ponsel":100000,
+ "Gathering Teknisi Ponsel":75000,
+ "Kegiatan Komunitas":50000
+};
+const eventEl=document.getElementById('event'), feeEl=document.getElementById('fee');
+eventEl.onchange=()=>feeEl.textContent=(feeByEvent[eventEl.value]||0).toLocaleString('id-ID');
+
+function makeId(){
+ const d=new Date(), stamp=d.getFullYear().toString().slice(2)+
+ String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+ return 'TPM-'+stamp+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
+}
+function getRegs(){return JSON.parse(localStorage.getItem('tpm_registrasi')||'[]')}
+function saveRegs(a){localStorage.setItem('tpm_registrasi',JSON.stringify(a))}
+
+document.getElementById('formReg').onsubmit=e=>{
+ e.preventDefault();
+ const data={
+  id:makeId(), event:eventEl.value, eventDate:document.getElementById('eventDate').value,
+  fee:feeByEvent[eventEl.value]||0, name:document.getElementById('name').value.trim(),
+  wa:document.getElementById('wa').value.trim(), shop:document.getElementById('shop').value.trim(),
+  city:document.getElementById('city').value.trim(), member:document.getElementById('member').value,
+  address:document.getElementById('address').value.trim(), method:document.getElementById('method').value,
+  payNote:document.getElementById('payNote').value.trim(), status:'BELUM LUNAS',
+  createdAt:new Date().toISOString(), checkedIn:false
+ };
+ const arr=getRegs();arr.push(data);saveRegs(arr);
+ document.getElementById('formReg').style.display='none';
+ document.getElementById('result').classList.add('show');
+ document.getElementById('regNo').textContent=data.id;
+ document.getElementById('ticketEvent').textContent=data.event;
+ document.getElementById('ticketName').textContent=data.name;
+ JsBarcode("#barcode",data.id,{format:"CODE128",displayValue:true,fontSize:14,height:60,margin:5});
+ window.currentReg=data;
+ window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+};
+document.getElementById('sendWa').onclick=()=>{
+ const d=window.currentReg;if(!d)return;
+ let n=d.wa.replace(/\D/g,'');if(n.startsWith('0'))n='62'+n.slice(1);
+ const msg=`BUKTI REGISTRASI%0A${d.event}%0ANama: ${d.name}%0ANo. Registrasi: ${d.id}%0AStatus: ${d.status}%0ABiaya: Rp ${d.fee.toLocaleString('id-ID')}%0A%0ASimpan nomor registrasi ini untuk pengecekan panitia.`;
+ location.href='https://wa.me/'+n+'?text='+msg;
+};
+</script>
+</body>
+</html>
