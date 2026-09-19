@@ -1,371 +1,335 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pengaturan Acara</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --black:#0b0f14;
-  --yellow:#ffc107;
-  --bg:#f3f5f7;
-  --white:#fff;
-  --text:#17202a;
-  --muted:#6b7280;
-  --border:#e5e7eb;
-  --green:#16a34a;
-  --red:#dc2626;
-}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-.header{
-  height:64px;background:var(--black);color:#fff;padding:0 16px;
-  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;
-  box-shadow:0 2px 8px rgba(0,0,0,.18)
-}
-.back{
-  width:40px;height:40px;border:0;border-radius:9px;background:rgba(255,255,255,.08);
-  color:#fff;font-size:24px;cursor:pointer
-}
+:root{--b:#0b0f14;--y:#ffc107;--bg:#eef2f6;--w:#fff;--t:#17202a;--m:#6b7280;--bd:#e2e8f0;--g:#16a34a;--r:#dc2626}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--t)}
+.header{height:64px;background:var(--b);color:#fff;display:flex;align-items:center;gap:12px;padding:0 15px;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #0003}
+.back{width:40px;height:40px;border:0;border-radius:10px;background:#ffffff12;color:#fff;font-size:25px;cursor:pointer}
 .header h1{font-size:18px}
-.container{max-width:900px;margin:auto;padding:18px}
-.card{
-  background:#fff;border:1px solid var(--border);border-radius:16px;
-  padding:18px;margin-bottom:16px;box-shadow:0 2px 7px rgba(0,0,0,.04)
-}
-.card h2{font-size:17px;margin-bottom:5px}
-.card-desc{font-size:13px;color:var(--muted);margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}
-.field.full{grid-column:1/-1}
-label{font-size:13px;font-weight:700}
-input,textarea,select{
-  width:100%;border:1px solid #d7dce1;border-radius:10px;padding:11px 12px;
-  font:inherit;background:#fff;outline:none
-}
-input:focus,textarea:focus,select:focus{border-color:#9ca3af}
+.wrap{max-width:920px;margin:auto;padding:16px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:16px;padding:17px;margin-bottom:15px;box-shadow:0 2px 7px #00000008}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:15px}
+.card h2{font-size:17px}
+.desc{font-size:12px;color:var(--m);margin-top:4px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.full{grid-column:1/-1}
+label{font-size:12px;font-weight:700}
+input,textarea,select{width:100%;padding:11px 12px;border:1px solid #d5dbe2;border-radius:10px;background:#fff;font:inherit;outline:0}
 textarea{min-height:90px;resize:vertical}
-.banner-preview{
-  width:100%;height:180px;border:1px dashed #cbd5e1;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-  background:#f8fafc;color:var(--muted);margin-bottom:10px
-}
-.banner-preview img{width:100%;height:100%;object-fit:cover}
-.ticket-row{
-  display:grid;grid-template-columns:1fr 1fr auto;gap:10px;
-  align-items:end;margin-bottom:10px
-}
-.btn{
-  border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer
-}
-.btn-primary{background:var(--yellow);color:#111}
-.btn-dark{background:var(--black);color:#fff}
-.btn-light{background:#eef1f4;color:#17202a}
-.btn-danger{background:#fee2e2;color:#991b1b}
-.actions{display:flex;gap:10px;flex-wrap:wrap}
-.switch{
-  display:flex;align-items:center;justify-content:space-between;
-  border:1px solid var(--border);border-radius:12px;padding:13px 14px
-}
-.switch-text strong{display:block;font-size:14px}
-.switch-text span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+input:focus,textarea:focus,select:focus{border-color:#9ca3af}
+.btn{border:0;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}
+.primary{background:var(--y);color:#111}
+.dark{background:var(--b);color:#fff}
+.light{background:#eef1f4;color:var(--t)}
+.danger{background:#fee2e2;color:#991b1b}
+.add{white-space:nowrap}
+.banner-box{border:1px dashed #cbd5e1;border-radius:12px;overflow:hidden;background:#f8fafc;min-height:190px;display:flex;align-items:center;justify-content:center;color:var(--m);margin-bottom:10px}
+.banner-box img{width:100%;max-height:300px;object-fit:cover;display:block}
+.small{font-size:11px;color:var(--m);line-height:1.5}
+.item{border:1px solid var(--bd);border-radius:13px;padding:13px;margin-top:11px;background:#fafbfc}
+.item-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}
+.item-title{font-size:14px;font-weight:800}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;gap:9px;flex-wrap:wrap}
+.preview-img{width:100%;height:120px;border-radius:10px;border:1px dashed #cbd5e1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;color:var(--m);font-size:11px;margin-top:8px}
+.preview-img img{width:100%;height:100%;object-fit:contain}
+.switches{display:grid;gap:9px}
+.switch{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--bd);border-radius:11px;padding:12px}
+.switch strong{font-size:13px;display:block}.switch span{font-size:11px;color:var(--m);display:block;margin-top:3px}
 .switch input{width:20px;height:20px}
-.event-list{display:flex;flex-direction:column;gap:10px}
-.event-item{
-  border:1px solid var(--border);border-radius:12px;padding:13px;
-  display:flex;justify-content:space-between;gap:12px;align-items:center
-}
-.event-info strong{font-size:14px}
-.event-info small{display:block;color:var(--muted);margin-top:4px}
-.status{
-  display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700;margin-top:6px
-}
-.status.active{background:#dcfce7;color:#166534}
-.status.off{background:#f1f5f9;color:#64748b}
-.empty{text-align:center;color:var(--muted);padding:20px;font-size:13px}
-.toast{
-  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
-  background:var(--black);color:#fff;padding:12px 18px;border-radius:10px;
-  opacity:0;visibility:hidden;transition:.2s;z-index:50;font-size:14px
-}
+.ticket{display:grid;grid-template-columns:1.1fr .8fr 1.3fr auto;gap:9px;align-items:end}
+.empty{padding:16px;text-align:center;border:1px dashed #cbd5e1;border-radius:11px;color:var(--m);font-size:12px;margin-top:10px}
+.savebar{position:sticky;bottom:10px;background:#ffffffed;backdrop-filter:blur(8px);border:1px solid var(--bd);border-radius:14px;padding:10px;display:flex;justify-content:flex-end;gap:9px;z-index:10;box-shadow:0 3px 14px #00000012}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:var(--b);color:#fff;padding:12px 17px;border-radius:10px;font-size:13px;opacity:0;visibility:hidden;transition:.2s;z-index:50;max-width:90%;text-align:center}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
-@media(max-width:650px){
-  .container{padding:12px}
-  .grid{grid-template-columns:1fr}
-  .field.full{grid-column:auto}
-  .ticket-row{grid-template-columns:1fr}
-  .event-item{align-items:flex-start;flex-direction:column}
-}
+@media(max-width:680px){.wrap{padding:11px}.grid,.row{grid-template-columns:1fr}.full{grid-column:auto}.ticket{grid-template-columns:1fr}.card{padding:14px}.savebar{justify-content:stretch}.savebar .btn{flex:1}}
 </style>
 </head>
 <body>
 
 <header class="header">
-  <button class="back" onclick="history.back()" aria-label="Kembali">‹</button>
+  <button class="back" onclick="location.href='index.html'">‹</button>
   <h1>⚙️ Pengaturan Acara</h1>
 </header>
 
-<main class="container">
+<main class="wrap">
 
-  <section class="card">
-    <h2>📋 Informasi Acara</h2>
-    <p class="card-desc">Atur informasi dasar acara yang nantinya dapat ditampilkan di halaman utama dan registrasi.</p>
-
-    <div class="grid">
-      <div class="field full">
-        <label>Nama Kegiatan / Acara</label>
-        <input id="eventName" type="text" placeholder="Contoh: STIMA & MUSWIL JABAR">
-      </div>
-
-      <div class="field">
-        <label>Tanggal Acara</label>
-        <input id="eventDate" type="date">
-      </div>
-
-      <div class="field">
-        <label>Lokasi Acara</label>
-        <input id="eventLocation" type="text" placeholder="Contoh: Gedung Islamic Center">
-      </div>
-
-      <div class="field full">
-        <label>Deskripsi / Informasi Acara</label>
-        <textarea id="eventDescription" placeholder="Tulis informasi singkat mengenai acara..."></textarea>
-      </div>
+<section class="card">
+  <div class="card-head">
+    <div>
+      <h2>📋 Identitas Acara</h2>
+      <p class="desc">Semua informasi utama acara diatur dari sini.</p>
     </div>
-  </section>
-
-  <section class="card">
-    <h2>🖼️ Pengaturan Banner Acara</h2>
-    <p class="card-desc">Banner ini nantinya menjadi bagian dari tampilan acara di halaman index.</p>
-
-    <div class="banner-preview" id="bannerPreview">
-      Preview banner akan tampil di sini
+  </div>
+  <div class="grid">
+    <div class="field full"><label>Nama Kegiatan / Acara *</label><input id="name" placeholder="Contoh: STIMA & MUSWIL JABAR"></div>
+    <div class="field"><label>Tanggal Acara</label><input id="date" type="date"></div>
+    <div class="field"><label>Waktu Acara</label><input id="time" type="time"></div>
+    <div class="field full"><label>Lokasi</label><input id="location" placeholder="Nama gedung / tempat acara"></div>
+    <div class="field full"><label>Deskripsi</label><textarea id="description" placeholder="Informasi singkat acara..."></textarea></div>
+    <div class="field"><label>Status Acara</label>
+      <select id="status"><option value="draft">Draft</option><option value="active">Aktif</option><option value="finished">Selesai / Arsip</option></select>
     </div>
+  </div>
+</section>
 
-    <div class="field">
-      <label>URL Banner</label>
-      <input id="bannerUrl" type="url" placeholder="https://...">
-    </div>
-  </section>
+<section class="card">
+  <div class="card-head">
+    <div><h2>🖼️ Banner Acara</h2><p class="desc">Satu banner aktif. Jika diganti, banner lama tidak perlu menjadi banner baru.</p></div>
+  </div>
+  <div class="banner-box" id="bannerPreview">Belum ada banner</div>
+  <div class="actions">
+    <label class="btn primary" style="display:inline-block">
+      ＋ Upload / Ganti Banner
+      <input id="bannerFile" type="file" accept="image/*" hidden>
+    </label>
+    <button class="btn light" type="button" onclick="removeBanner()">Hapus Banner</button>
+  </div>
+  <p class="small" id="bannerInfo" style="margin-top:8px">Gambar akan dikompres otomatis sebelum upload.</p>
+</section>
 
-  <section class="card">
-    <h2>🎟️ Pengaturan Harga / Tiket</h2>
-    <p class="card-desc">Buat tier tiket sesuai kebutuhan acara. Jumlah tier dapat disesuaikan.</p>
+<section class="card">
+  <div class="card-head">
+    <div><h2>🏆 Hadiah Utama / Doorprize</h2><p class="desc">Tambahkan hadiah sesuai kebutuhan. Tidak ada daftar hadiah yang ditampilkan sebelum ditambahkan.</p></div>
+    <button class="btn primary add" onclick="addPrize()">＋ Tambah Hadiah</button>
+  </div>
+  <div id="prizeList"><div class="empty">Belum ada hadiah. Tekan “＋ Tambah Hadiah”.</div></div>
+</section>
 
-    <div id="ticketList"></div>
+<section class="card">
+  <div class="card-head">
+    <div><h2>🤝 Logo Sponsor</h2><p class="desc">Sponsor ditambahkan satu per satu. Tidak ada 10/20 kolom kosong yang tampil.</p></div>
+    <button class="btn primary add" onclick="addSponsor()">＋ Tambah Sponsor</button>
+  </div>
+  <div id="sponsorList"><div class="empty">Belum ada sponsor. Tekan “＋ Tambah Sponsor”.</div></div>
+</section>
 
-    <button class="btn btn-light" type="button" onclick="addTicket()">＋ Tambah Tier Tiket</button>
-  </section>
+<section class="card">
+  <div class="card-head">
+    <div><h2>🎟️ Harga / Tiket Registrasi</h2><p class="desc">Tier dapat ditambah sesuai kebutuhan acara.</p></div>
+    <button class="btn primary add" onclick="addTicket()">＋ Tambah Tier</button>
+  </div>
+  <div id="ticketList"></div>
+</section>
 
-  <section class="card">
-    <h2>🎨 Pengaturan Tampilan</h2>
-    <p class="card-desc">Atur elemen mana yang boleh ditampilkan pada halaman publik.</p>
+<section class="card">
+  <div class="card-head"><div><h2>🎨 Pengaturan Tampilan</h2><p class="desc">Menentukan bagian apa yang ditampilkan pada index dan registrasi.</p></div></div>
+  <div class="switches">
+    <label class="switch"><div><strong>Tampilkan Banner</strong><span>Banner acara muncul di halaman utama.</span></div><input id="showBanner" type="checkbox" checked></label>
+    <label class="switch"><div><strong>Tampilkan Informasi Acara</strong><span>Nama, tanggal, lokasi, dan deskripsi.</span></div><input id="showInfo" type="checkbox" checked></label>
+    <label class="switch"><div><strong>Tampilkan Hadiah</strong><span>Hadiah/doorprize muncul pada halaman acara.</span></div><input id="showPrize" type="checkbox" checked></label>
+    <label class="switch"><div><strong>Tampilkan Sponsor</strong><span>Logo sponsor aktif muncul pada halaman acara.</span></div><input id="showSponsor" type="checkbox" checked></label>
+    <label class="switch"><div><strong>Registrasi Dibuka</strong><span>Peserta boleh melakukan registrasi.</span></div><input id="registrationOpen" type="checkbox" checked></label>
+  </div>
+</section>
 
-    <div class="switch">
-      <div class="switch-text">
-        <strong>Tampilkan Banner</strong>
-        <span>Banner acara ditampilkan di halaman index.</span>
-      </div>
-      <input id="showBanner" type="checkbox" checked>
-    </div>
-
-    <br>
-
-    <div class="switch">
-      <div class="switch-text">
-        <strong>Tampilkan Informasi Acara</strong>
-        <span>Nama, tanggal, lokasi dan deskripsi ditampilkan.</span>
-      </div>
-      <input id="showInfo" type="checkbox" checked>
-    </div>
-
-    <br>
-
-    <div class="switch">
-      <div class="switch-text">
-        <strong>Registrasi Dibuka</strong>
-        <span>Peserta dapat melakukan registrasi pada acara ini.</span>
-      </div>
-      <input id="registrationOpen" type="checkbox" checked>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>💾 Simpan Acara</h2>
-    <p class="card-desc">Untuk tahap ini tombol menyimpan struktur pengaturan. Penyimpanan Firestore akan kita sambungkan setelah struktur final disepakati.</p>
-    <div class="actions">
-      <button class="btn btn-primary" onclick="saveEvent()">Simpan Pengaturan Acara</button>
-      <button class="btn btn-light" onclick="resetForm()">Reset</button>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>📚 Daftar Acara</h2>
-    <p class="card-desc">Nantinya seluruh acara yang dibuat akan tampil di sini.</p>
-    <div id="eventList" class="event-list">
-      <div class="empty">Belum ada acara tersimpan.</div>
-    </div>
-  </section>
+<div class="savebar">
+  <button class="btn light" onclick="resetForm()">Reset</button>
+  <button class="btn primary" onclick="saveEvent()">💾 Simpan Pengaturan</button>
+</div>
 
 </main>
-
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBwHjyapmcsvIff_HrGyHsxGrJTl-7CHTo",
-  authDomain: "teknisi-ponsel-maja.firebaseapp.com",
-  projectId: "teknisi-ponsel-maja",
-  storageBucket: "teknisi-ponsel-maja.firebasestorage.app",
-  messagingSenderId: "835618012205",
-  appId: "1:835618012205:web:95e41095d1a56c761d4ca4"
+const firebaseConfig={
+  apiKey:"AIzaSyBwHjyapmcsvIff_HrGyHsxGrJTl-7CHTo",
+  authDomain:"teknisi-ponsel-maja.firebaseapp.com",
+  projectId:"teknisi-ponsel-maja",
+  storageBucket:"teknisi-ponsel-maja.firebasestorage.app",
+  messagingSenderId:"835618012205",
+  appId:"1:835618012205:web:95d1a56c761d4ca4"
 };
-
-const app = initializeApp(firebaseConfig);
-window.firebaseApp = app;
+window.firebaseApp=initializeApp(firebaseConfig);
 </script>
 
 <script>
-let ticketCount = 0;
+let prizeNo=0,sponsorNo=0,ticketNo=0;
+let bannerData=null;
 
-function addTicket(name="", price=""){
-  ticketCount++;
-  const id = ticketCount;
-
-  const row = document.createElement("div");
-  row.className = "ticket-row";
-  row.id = "ticket-"+id;
-
-  row.innerHTML = `
-    <div class="field">
-      <label>Nama Tier</label>
-      <input class="ticket-name" type="text" value="${escapeAttr(name)}" placeholder="Contoh: Tier 1">
-    </div>
-    <div class="field">
-      <label>Harga Tiket (Rp)</label>
-      <input class="ticket-price" type="number" min="0" value="${escapeAttr(price)}" placeholder="100000">
-    </div>
-    <button class="btn btn-danger" type="button" onclick="removeTicket(${id})">Hapus</button>
-  `;
-
-  document.getElementById("ticketList").appendChild(row);
+function emptyMessage(id,text,buttonText,fn){
+  const el=document.getElementById(id);
+  if(!el.children.length)el.innerHTML='<div class="empty">'+text+'</div>';
 }
-
-function removeTicket(id){
-  const el = document.getElementById("ticket-"+id);
-  if(el) el.remove();
+function addPrize(data={}){
+  const list=document.getElementById("prizeList");
+  if(list.querySelector(".empty"))list.innerHTML="";
+  const id=++prizeNo;
+  const box=document.createElement("div");
+  box.className="item";box.id="prize-"+id;
+  box.innerHTML=`
+    <div class="item-head"><div class="item-title">🏆 Hadiah ${id}</div>
+    <button class="btn danger" onclick="removeItem('prize-${id}','prizeList')">Hapus</button></div>
+    <div class="row">
+      <div class="field"><label>Nama Hadiah</label><input class="prize-name" placeholder="Contoh: Smartphone"></div>
+      <div class="field"><label>Caption / Keterangan</label><input class="prize-caption" placeholder="Hadiah utama untuk peserta"></div>
+      <div class="field" style="grid-column:1/-1">
+        <label>Gambar Hadiah</label>
+        <input class="prize-file" type="file" accept="image/*">
+        <div class="preview-img prize-preview">Belum ada gambar</div>
+      </div>
+    </div>`;
+  list.appendChild(box);
+  const file=box.querySelector(".prize-file");
+  file.addEventListener("change",async e=>{
+    const result=await compressImage(e.target.files[0]);
+    if(result){box.dataset.image=result.dataUrl;box.querySelector(".prize-preview").innerHTML='<img src="'+result.dataUrl+'">';}
+  });
+  if(data.name)box.querySelector(".prize-name").value=data.name;
+  if(data.caption)box.querySelector(".prize-caption").value=data.caption;
 }
-
-function escapeAttr(value){
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/"/g,"&quot;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;");
+function addSponsor(data={}){
+  const list=document.getElementById("sponsorList");
+  if(list.querySelector(".empty"))list.innerHTML="";
+  const id=++sponsorNo;
+  const box=document.createElement("div");
+  box.className="item";box.id="sponsor-"+id;
+  box.innerHTML=`
+    <div class="item-head"><div class="item-title">🤝 Sponsor ${id}</div>
+    <button class="btn danger" onclick="removeItem('sponsor-${id}','sponsorList')">Hapus</button></div>
+    <div class="row">
+      <div class="field"><label>Nama Sponsor</label><input class="sponsor-name" placeholder="Nama toko / perusahaan"></div>
+      <div class="field"><label>Caption Sponsor</label><input class="sponsor-caption" placeholder="Keterangan sponsor"></div>
+      <div class="field" style="grid-column:1/-1">
+        <label>Logo Sponsor</label>
+        <input class="sponsor-file" type="file" accept="image/*">
+        <div class="preview-img sponsor-preview">Belum ada logo</div>
+      </div>
+    </div>`;
+  list.appendChild(box);
+  box.querySelector(".sponsor-file").addEventListener("change",async e=>{
+    const result=await compressImage(e.target.files[0]);
+    if(result){box.dataset.image=result.dataUrl;box.querySelector(".sponsor-preview").innerHTML='<img src="'+result.dataUrl+'">';}
+  });
+  if(data.name)box.querySelector(".sponsor-name").value=data.name;
+  if(data.caption)box.querySelector(".sponsor-caption").value=data.caption;
 }
-
-function getTickets(){
-  return [...document.querySelectorAll("#ticketList .ticket-row")].map(row => ({
-    name: row.querySelector(".ticket-name")?.value.trim() || "",
-    price: Number(row.querySelector(".ticket-price")?.value || 0)
-  })).filter(t => t.name);
+function addTicket(data={}){
+  const list=document.getElementById("ticketList");
+  const id=++ticketNo;
+  const row=document.createElement("div");
+  row.className="item";row.id="ticket-"+id;
+  row.innerHTML=`
+    <div class="ticket">
+      <div class="field"><label>Nama Tier</label><input class="ticket-name" placeholder="Tier 1"></div>
+      <div class="field"><label>Harga (Rp)</label><input class="ticket-price" type="number" min="0" placeholder="100000"></div>
+      <div class="field"><label>Keterangan</label><input class="ticket-note" placeholder="Harga normal"></div>
+      <button class="btn danger" onclick="removeItem('ticket-${id}','ticketList')">Hapus</button>
+    </div>`;
+  list.appendChild(row);
+  if(data.name)row.querySelector(".ticket-name").value=data.name;
+  if(data.price!==undefined)row.querySelector(".ticket-price").value=data.price;
+  if(data.note)row.querySelector(".ticket-note").value=data.note;
 }
-
-function getFormData(){
+function removeItem(id,listId){
+  document.getElementById(id)?.remove();
+  const list=document.getElementById(listId);
+  if(!list.children.length){
+    const text=listId==="sponsorList"?"Belum ada sponsor. Tekan “＋ Tambah Sponsor”.":
+      listId==="prizeList"?"Belum ada hadiah. Tekan “＋ Tambah Hadiah”.":"";
+    if(text)list.innerHTML='<div class="empty">'+text+'</div>';
+  }
+}
+function removeBanner(){
+  bannerData=null;
+  document.getElementById("bannerFile").value="";
+  document.getElementById("bannerPreview").textContent="Belum ada banner";
+  document.getElementById("bannerInfo").textContent="Banner dihapus dari rancangan acara.";
+}
+document.getElementById("bannerFile").addEventListener("change",async e=>{
+  const result=await compressImage(e.target.files[0]);
+  if(!result)return;
+  bannerData=result.dataUrl;
+  document.getElementById("bannerPreview").innerHTML='<img src="'+result.dataUrl+'">';
+  document.getElementById("bannerInfo").textContent="Siap disimpan • ukuran setelah kompresi sekitar "+formatBytes(result.size);
+});
+function compressImage(file,maxWidth=1800,quality=.82){
+  return new Promise(resolve=>{
+    if(!file)return resolve(null);
+    if(!file.type.startsWith("image/")){showToast("File harus berupa gambar.");return resolve(null)}
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        let w=img.width,h=img.height;
+        if(w>maxWidth){h=Math.round(h*maxWidth/w);w=maxWidth}
+        const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;
+        const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0,w,h);
+        canvas.toBlob(blob=>{
+          const fr=new FileReader();
+          fr.onload=()=>resolve({dataUrl:fr.result,size:blob.size});
+          fr.readAsDataURL(blob);
+        },"image/jpeg",quality);
+      };
+      img.onerror=()=>{showToast("Gambar tidak dapat dibaca.");resolve(null)};
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function formatBytes(n){
+  if(n<1024)return n+" B";
+  if(n<1048576)return (n/1024).toFixed(0)+" KB";
+  return (n/1048576).toFixed(2)+" MB";
+}
+function collect(){
   return {
-    name: document.getElementById("eventName").value.trim(),
-    date: document.getElementById("eventDate").value,
-    location: document.getElementById("eventLocation").value.trim(),
-    description: document.getElementById("eventDescription").value.trim(),
-    bannerUrl: document.getElementById("bannerUrl").value.trim(),
-    tickets: getTickets(),
-    display: {
-      showBanner: document.getElementById("showBanner").checked,
-      showInfo: document.getElementById("showInfo").checked,
-      registrationOpen: document.getElementById("registrationOpen").checked
+    name:document.getElementById("name").value.trim(),
+    date:document.getElementById("date").value,
+    time:document.getElementById("time").value,
+    location:document.getElementById("location").value.trim(),
+    description:document.getElementById("description").value.trim(),
+    status:document.getElementById("status").value,
+    banner:bannerData,
+    prizes:[...document.querySelectorAll("#prizeList .item")].map(x=>({
+      name:x.querySelector(".prize-name").value.trim(),
+      caption:x.querySelector(".prize-caption").value.trim(),
+      image:x.dataset.image||null
+    })),
+    sponsors:[...document.querySelectorAll("#sponsorList .item")].map(x=>({
+      name:x.querySelector(".sponsor-name").value.trim(),
+      caption:x.querySelector(".sponsor-caption").value.trim(),
+      logo:x.dataset.image||null
+    })),
+    tickets:[...document.querySelectorAll("#ticketList .item")].map(x=>({
+      name:x.querySelector(".ticket-name").value.trim(),
+      price:Number(x.querySelector(".ticket-price").value||0),
+      note:x.querySelector(".ticket-note").value.trim()
+    })),
+    display:{
+      showBanner:document.getElementById("showBanner").checked,
+      showInfo:document.getElementById("showInfo").checked,
+      showPrize:document.getElementById("showPrize").checked,
+      showSponsor:document.getElementById("showSponsor").checked,
+      registrationOpen:document.getElementById("registrationOpen").checked
     }
   };
 }
-
 function saveEvent(){
-  const data = getFormData();
-
-  if(!data.name){
-    showToast("Nama acara belum diisi.");
-    return;
-  }
-
-  console.log("DATA ACARA:", data);
-  showToast("Struktur acara siap disimpan ke Firebase.");
-
-  /*
-    LANGKAH BERIKUTNYA:
-    data ini akan disimpan ke Firestore, misalnya:
-    events/{eventId}
-
-    Kemudian index.html dan registrasi.html
-    membaca event yang statusnya aktif.
-  */
+  const data=collect();
+  if(!data.name){showToast("Nama kegiatan wajib diisi.");return}
+  console.log("DATA ACARA SIAP DISIMPAN:",data);
+  showToast("Pengaturan acara sudah siap. Tahap berikutnya sambungkan Firestore + Storage.");
 }
-
 function resetForm(){
-  document.getElementById("eventName").value="";
-  document.getElementById("eventDate").value="";
-  document.getElementById("eventLocation").value="";
-  document.getElementById("eventDescription").value="";
-  document.getElementById("bannerUrl").value="";
-  document.getElementById("showBanner").checked=true;
-  document.getElementById("showInfo").checked=true;
-  document.getElementById("registrationOpen").checked=true;
-  document.getElementById("ticketList").innerHTML="";
-  ticketCount=0;
-  addTicket("Tier 1","");
-  addTicket("Tier 2","");
-  addTicket("Tier 3","");
-  updateBannerPreview();
+  if(!confirm("Reset seluruh isian acara?"))return;
+  location.reload();
 }
-
-function updateBannerPreview(){
-  const url=document.getElementById("bannerUrl").value.trim();
-  const box=document.getElementById("bannerPreview");
-
-  if(!url){
-    box.innerHTML="Preview banner akan tampil di sini";
-    return;
-  }
-
-  box.innerHTML="";
-  const img=document.createElement("img");
-  img.src=url;
-  img.alt="Preview banner";
-  img.onerror=()=>{
-    box.textContent="Banner tidak dapat dimuat. Periksa URL.";
-  };
-  box.appendChild(img);
+function showToast(t){
+  const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");
+  clearTimeout(window._toast);window._toast=setTimeout(()=>el.classList.remove("show"),3000);
 }
-
-document.getElementById("bannerUrl").addEventListener("input",updateBannerPreview);
-
-function showToast(msg){
-  const toast=document.getElementById("toast");
-  toast.textContent=msg;
-  toast.classList.add("show");
-  clearTimeout(window.toastTimer);
-  window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2500);
-}
-
-window.addTicket=addTicket;
-window.removeTicket=removeTicket;
-window.saveEvent=saveEvent;
-window.resetForm=resetForm;
-
-addTicket("Tier 1","");
-addTicket("Tier 2","");
-addTicket("Tier 3","");
+window.addPrize=addPrize;window.addSponsor=addSponsor;window.addTicket=addTicket;
+window.removeItem=removeItem;window.removeBanner=removeBanner;window.saveEvent=saveEvent;window.resetForm=resetForm;
+addTicket({name:"Tier 1"});addTicket({name:"Tier 2"});addTicket({name:"Tier 3"});
 </script>
-
 </body>
 </html>
