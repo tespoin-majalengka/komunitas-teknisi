@@ -3,171 +3,316 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffc107">
-<title>Registrasi Acara | Teknisi Ponsel Majalengka</title>
+<title>Registrasi Acara</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f5f7;color:#17202a;font-family:Arial,sans-serif}
-:root{--b:#0b0f14;--y:#ffc107;--g:#16a34a;--r:#dc2626;--line:#e5e7eb}
-.header{background:linear-gradient(135deg,#0b0f14,#202731);color:#fff;padding:18px 14px;border-bottom:4px solid var(--y)}
-.top{max-width:850px;margin:auto;display:flex;align-items:center;gap:10px}
-.logo{width:48px;height:48px;border-radius:12px;overflow:hidden;background:#fff}.logo img{width:100%;height:100%;object-fit:cover}
-.top b{font-size:15px}.top small{display:block;color:#cbd5e1;margin-top:3px}
-.wrap{max-width:850px;margin:auto;padding:16px 12px 40px}
-.title h2{margin:4px 0 5px;font-size:23px}.title p{margin:0 0 16px;color:#6b7280;font-size:12px}
-.box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:13px;box-shadow:0 3px 12px #00000009}
-.box h3{margin:0 0 13px;font-size:15px}
-label{display:block;font-size:12px;font-weight:700;margin:11px 0 5px}
-input,select,textarea{width:100%;border:1px solid #d7dce1;border-radius:9px;padding:11px;font-size:13px;background:#fff}
-textarea{min-height:70px;resize:vertical}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--b:#0b0f14;--y:#ffc107;--bg:#eef2f6;--w:#fff;--t:#17202a;--m:#6b7280;--bd:#e2e8f0;--g:#16a34a;--r:#dc2626}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--t)}
+.header{height:64px;background:var(--b);color:#fff;display:flex;align-items:center;gap:12px;padding:0 15px;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px #0003}
+.back{width:40px;height:40px;border:0;border-radius:10px;background:#ffffff12;color:#fff;font-size:25px;cursor:pointer}
+.header h1{font-size:18px}
+.wrap{max-width:760px;margin:auto;padding:16px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:17px;margin-bottom:15px;box-shadow:0 2px 7px #00000008}
+.event-banner{width:100%;max-height:310px;object-fit:cover;border-radius:13px;display:none;margin-bottom:14px}
+.event-title{font-size:22px;font-weight:800;line-height:1.25}
+.event-meta{margin-top:9px;color:var(--m);font-size:13px;line-height:1.7}
+.event-desc{margin-top:12px;font-size:13px;line-height:1.6}
+.form-title{font-size:17px;margin-bottom:5px}
+.desc{font-size:12px;color:var(--m);line-height:1.5;margin-bottom:16px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.info{background:#fff8dc;border:1px solid #f1d46b;padding:12px;border-radius:10px;font-size:11px;line-height:1.6}
-.price{font-size:22px;font-weight:900;margin-top:5px}
-.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;font-size:13px}
-.primary{background:var(--y);color:#111;width:100%;margin-top:14px}
-.back{display:inline-block;margin-top:4px;font-size:12px;color:#374151}
-.result{display:none;text-align:center}.result.show{display:block}
-.status{display:inline-block;padding:6px 10px;border-radius:20px;font-weight:800;font-size:11px}
-.pending{background:#fff3cd;color:#856404}.paid{background:#dcfce7;color:#166534}
-.ticket{border:2px dashed #cbd5e1;border-radius:15px;padding:15px;margin-top:13px}
-.ticket h3{margin:0 0 4px}.ticket p{font-size:11px;color:#6b7280}
-#barcode{max-width:100%;height:85px}
-.wa{background:#16a34a;color:white;width:100%;margin-top:8px}
-.note{font-size:10px;color:#6b7280;line-height:1.5;margin-top:10px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:6px}
+.full{grid-column:1/-1}
+label{font-size:12px;font-weight:700}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d5dbe2;border-radius:10px;background:#fff;font:inherit;outline:0}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#9ca3af}
+.ticket-list{display:grid;gap:9px}
+.ticket-option{border:1px solid var(--bd);border-radius:12px;padding:12px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.ticket-option:has(input:checked){border-color:#d29f00;background:#fff9df}
+.ticket-option input{width:18px;height:18px}
+.ticket-name{font-weight:800;font-size:13px}.ticket-price{margin-left:auto;font-weight:800}
+.required{color:var(--r)}
+.submit{width:100%;padding:13px;border:0;border-radius:11px;background:var(--y);font-weight:800;font-size:15px;cursor:pointer}
+.submit:disabled{opacity:.55;cursor:not-allowed}
+.notice{padding:13px;border-radius:11px;font-size:12px;line-height:1.5}
+.notice.info{background:#eff6ff;color:#1e40af}
+.notice.warn{background:#fff7ed;color:#9a3412}
+.hidden{display:none!important}
+.loading{text-align:center;color:var(--m);padding:30px 10px;font-size:13px}
+.success{background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;padding:15px;border-radius:12px;font-size:13px;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:var(--b);color:#fff;padding:12px 17px;border-radius:10px;font-size:13px;opacity:0;visibility:hidden;transition:.2s;z-index:50;max-width:90%;text-align:center}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+@media(max-width:650px){.wrap{padding:11px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:14px}.event-title{font-size:19px}.ticket-price{font-size:12px}}
 </style>
 </head>
 <body>
+
 <header class="header">
- <div class="top">
-  <div class="logo"><img src="logo.jpg" alt="Logo TESPOIN"></div>
-  <div><b>TEKNISI PONSEL MAJALENGKA</b><small>Pusat Registrasi Acara Komunitas</small></div>
- </div>
+  <button class="back" onclick="location.href='index.html'">‹</button>
+  <h1>📝 Registrasi Acara</h1>
 </header>
 
 <main class="wrap">
- <div class="title">
-  <h2>Registrasi Acara</h2>
-  <p>Isi data peserta dengan benar. Status pembayaran akan dipisahkan menjadi <b>Belum Lunas</b> dan <b>Lunas</b>.</p>
- </div>
 
- <form id="formReg">
-  <section class="box">
-   <h3>1. Pilih Acara</h3>
-   <label>Nama Acara</label>
-   <select id="event" required>
-    <option value="">-- Pilih acara --</option>
-    <option value="Pelatihan Teknisi Ponsel">Pelatihan Teknisi Ponsel</option>
-    <option value="Gathering Teknisi Ponsel">Gathering Teknisi Ponsel</option>
-    <option value="Kegiatan Komunitas">Kegiatan Komunitas</option>
-   </select>
-   <div class="grid">
-    <div><label>Tanggal Acara</label><input id="eventDate" type="date" required></div>
-    <div><label>Biaya Registrasi</label><div class="price">Rp <span id="fee">0</span></div></div>
-   </div>
-   <div style="margin-top:10px;font-size:11px"><a href="pengaturan-biaya.html" style="color:#b77900;font-weight:800">⚙️ Pengaturan biaya pendaftaran</a></div>
-   <div class="info">Setelah registrasi, peserta mendapatkan nomor registrasi. Pembayaran dapat diverifikasi panitia. Tiket <b>LUNAS</b> menjadi bukti masuk dan memiliki barcode unik.</div>
+  <section class="card" id="eventCard">
+    <div id="loading" class="loading">Memuat acara aktif...</div>
+
+    <div id="eventContent" class="hidden">
+      <img id="eventBanner" class="event-banner" alt="Banner acara">
+      <div id="eventTitle" class="event-title"></div>
+      <div id="eventMeta" class="event-meta"></div>
+      <div id="eventDesc" class="event-desc"></div>
+    </div>
+
+    <div id="noEvent" class="notice warn hidden">
+      Saat ini belum ada acara yang aktif. Silakan kembali lagi setelah admin membuka acara.
+    </div>
   </section>
 
-  <section class="box">
-   <h3>2. Data Peserta</h3>
-   <div class="grid">
-    <div><label>Nama Lengkap</label><input id="name" required placeholder="Nama peserta"></div>
-    <div><label>No. WhatsApp</label><input id="wa" required inputmode="tel" placeholder="08xxxxxxxxxx"></div>
-   </div>
-   <div class="grid">
-    <div><label>Nama Konter / Usaha</label><input id="shop" placeholder="Nama konter"></div>
-    <div><label>Kota / Kabupaten</label><input id="city" value="Majalengka"></div>
-   </div>
-   <label>Status Keanggotaan</label>
-   <select id="member">
-    <option>Anggota TESPOIN</option><option>Teknisi</option><option>Umum</option>
-   </select>
-   <label>Alamat</label><textarea id="address" placeholder="Alamat peserta"></textarea>
+  <form id="registrationForm" class="card hidden">
+    <h2 class="form-title">Data Peserta</h2>
+    <p class="desc">Isi data dengan benar. Data ini akan digunakan untuk registrasi dan pengecekan peserta.</p>
+
+    <div class="grid">
+      <div class="field full">
+        <label>Nama Lengkap <span class="required">*</span></label>
+        <input id="fullName" required autocomplete="name" placeholder="Nama lengkap">
+      </div>
+
+      <div class="field">
+        <label>Nama Toko / Konter <span class="required">*</span></label>
+        <input id="storeName" required placeholder="Nama toko / konter">
+      </div>
+
+      <div class="field">
+        <label>No. WhatsApp <span class="required">*</span></label>
+        <input id="whatsapp" required inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx">
+      </div>
+
+      <div class="field full">
+        <label>Alamat <span class="required">*</span></label>
+        <textarea id="address" required placeholder="Alamat toko / domisili"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="nama@email.com">
+      </div>
+
+      <div class="field">
+        <label>Ukuran Baju</label>
+        <select id="shirtSize">
+          <option value="">Pilih ukuran</option>
+          <option>XS</option><option>S</option><option>M</option><option>L</option>
+          <option>XL</option><option>XXL</option><option>XXXL</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="ticketSection" class="hidden" style="margin-top:18px">
+      <h2 class="form-title">🎟️ Pilihan Tiket</h2>
+      <p class="desc">Pilihan tiket mengikuti pengaturan acara. Peserta tidak perlu memilih acara.</p>
+      <div id="ticketList" class="ticket-list"></div>
+    </div>
+
+    <div class="notice info" style="margin-top:16px">
+      Setelah formulir dikirim, data akan tercatat sebagai <b>menunggu verifikasi</b>.
+      Status pembayaran dan approval dapat dicek melalui menu <b>Cek Registrasi</b>.
+    </div>
+
+    <button id="submitBtn" class="submit" type="submit" style="margin-top:14px">
+      Kirim Registrasi
+    </button>
+  </form>
+
+  <section id="successCard" class="card hidden">
+    <div class="success">
+      <b>Registrasi berhasil dikirim.</b><br>
+      Simpan nomor registrasi yang diberikan sistem untuk mengecek status peserta.
+      <div id="registrationNumber" style="margin-top:8px;font-weight:800"></div>
+    </div>
   </section>
 
-  <section class="box">
-   <h3>3. Pembayaran</h3>
-   <label>Metode Pembayaran</label>
-   <select id="method"><option>Transfer Bank</option><option>QRIS</option><option>Tunai kepada Panitia</option></select>
-   <label>Catatan Pembayaran</label>
-   <input id="payNote" placeholder="Contoh: transfer 19 September 2026">
-   <div class="info" style="margin-top:12px">Status awal otomatis <b>BELUM LUNAS</b>. Setelah panitia mencocokkan pembayaran, status diubah menjadi <b>LUNAS</b>. Hanya peserta LUNAS yang mendapatkan tiket barcode untuk pemeriksaan di lokasi.</div>
-  </section>
-
-  <button class="btn primary" type="submit">DAFTAR SEKARANG</button>
- </form>
-
- <section id="result" class="box result">
-  <span id="status" class="status pending">BELUM LUNAS</span>
-  <div class="ticket">
-   <h3 id="ticketEvent">-</h3>
-   <p>Nomor Registrasi: <b id="regNo">-</b></p>
-   <p>Peserta: <b id="ticketName">-</b></p>
-   <svg id="barcode"></svg>
-   <p id="ticketMsg">Simpan nomor registrasi. Setelah pembayaran disetujui panitia, tiket barcode dapat digunakan di lokasi acara.</p>
-  </div>
-  <button class="btn wa" id="sendWa">KIRIM BUKTI REGISTRASI KE WHATSAPP</button>
-  <div class="note">Catatan: versi ini menyimpan data di perangkat/browser untuk prototipe. Untuk dipakai banyak peserta dan banyak panitia, data perlu dipindahkan ke Firebase agar status lunas, laporan, dan scan dapat tersinkron antar perangkat.</div>
- </section>
-
- <a class="back" href="index.html">← Kembali ke halaman utama</a>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-<script>
-const defaultFees={
- "Pelatihan Teknisi Ponsel":100000,
- "Gathering Teknisi Ponsel":75000,
- "Kegiatan Komunitas":50000
-};
-function getFeeSettings(){
- try{return {...defaultFees,...JSON.parse(localStorage.getItem('tpm_fee_settings')||'{}')}}
- catch(e){return {...defaultFees}}
-}
-let feeByEvent=getFeeSettings();
-const eventEl=document.getElementById('event'), feeEl=document.getElementById('fee');
-function refreshFee(){
- feeByEvent=getFeeSettings();
- feeEl.textContent=(feeByEvent[eventEl.value]||0).toLocaleString('id-ID');
-}
-eventEl.onchange=refreshFee;
-refreshFee();
+<div class="toast" id="toast"></div>
 
-function makeId(){
- const d=new Date(), stamp=d.getFullYear().toString().slice(2)+
- String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
- return 'TPM-'+stamp+'-'+Math.random().toString(36).slice(2,8).toUpperCase();
-}
-function getRegs(){return JSON.parse(localStorage.getItem('tpm_registrasi')||'[]')}
-function saveRegs(a){localStorage.setItem('tpm_registrasi',JSON.stringify(a))}
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,query,where,getDocs,limit,addDoc,serverTimestamp}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-document.getElementById('formReg').onsubmit=e=>{
- e.preventDefault();
- const data={
-  id:makeId(), event:eventEl.value, eventDate:document.getElementById('eventDate').value,
-  fee:feeByEvent[eventEl.value]||0, name:document.getElementById('name').value.trim(),
-  wa:document.getElementById('wa').value.trim(), shop:document.getElementById('shop').value.trim(),
-  city:document.getElementById('city').value.trim(), member:document.getElementById('member').value,
-  address:document.getElementById('address').value.trim(), method:document.getElementById('method').value,
-  payNote:document.getElementById('payNote').value.trim(), status:'BELUM LUNAS',
-  createdAt:new Date().toISOString(), checkedIn:false
- };
- const arr=getRegs();arr.push(data);saveRegs(arr);
- document.getElementById('formReg').style.display='none';
- document.getElementById('result').classList.add('show');
- document.getElementById('regNo').textContent=data.id;
- document.getElementById('ticketEvent').textContent=data.event;
- document.getElementById('ticketName').textContent=data.name;
- JsBarcode("#barcode",data.id,{format:"CODE128",displayValue:true,fontSize:14,height:60,margin:5});
- window.currentReg=data;
- window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+const firebaseConfig={
+  apiKey:"AIzaSyBwHjyapmcsvIff_HrGyHsxGrJTl-7CHTo",
+  authDomain:"teknisi-ponsel-maja.firebaseapp.com",
+  projectId:"teknisi-ponsel-maja",
+  storageBucket:"teknisi-ponsel-maja.firebasestorage.app",
+  messagingSenderId:"835618012205",
+  appId:"1:835618012205:web:95d1a56c761d4ca4"
 };
-document.getElementById('sendWa').onclick=()=>{
- const d=window.currentReg;if(!d)return;
- let n=d.wa.replace(/\D/g,'');if(n.startsWith('0'))n='62'+n.slice(1);
- const msg=`BUKTI REGISTRASI%0A${d.event}%0ANama: ${d.name}%0ANo. Registrasi: ${d.id}%0AStatus: ${d.status}%0ABiaya: Rp ${d.fee.toLocaleString('id-ID')}%0A%0ASimpan nomor registrasi ini untuk pengecekan panitia.`;
- location.href='https://wa.me/'+n+'?text='+msg;
-};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+let activeEvent=null;
+
+function money(n){
+  return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n||0));
+}
+function toast(t){
+  const e=document.getElementById("toast");
+  e.textContent=t;e.classList.add("show");
+  clearTimeout(window._toast);window._toast=setTimeout(()=>e.classList.remove("show"),3000);
+}
+function escapeText(v){return String(v??"")}
+function normalizeWa(v){return v.replace(/\D/g,"").replace(/^0/,"62")}
+
+async function loadActiveEvent(){
+  const loading=document.getElementById("loading");
+  try{
+    /*
+      Koleksi yang digunakan:
+      events/{eventId}
+
+      Event aktif harus mempunyai:
+      status: "active"
+      display.registrationOpen: true
+
+      Query sengaja hanya mengambil acara yang sedang dibuka.
+    */
+    const q=query(
+      collection(db,"events"),
+      where("status","==","active"),
+      where("display.registrationOpen","==",true),
+      limit(1)
+    );
+    const snap=await getDocs(q);
+
+    loading.classList.add("hidden");
+
+    if(snap.empty){
+      document.getElementById("noEvent").classList.remove("hidden");
+      return;
+    }
+
+    const doc=snap.docs[0];
+    activeEvent={id:doc.id,...doc.data()};
+    renderEvent(activeEvent);
+
+  }catch(err){
+    console.error(err);
+    loading.textContent="Acara belum dapat dimuat.";
+    toast("Gagal mengambil acara aktif. Periksa Firestore Rules dan data acara.");
+  }
+}
+
+function renderEvent(ev){
+  document.getElementById("eventContent").classList.remove("hidden");
+
+  document.getElementById("eventTitle").textContent=ev.name||"Nama Acara";
+  document.getElementById("eventDesc").textContent=ev.description||"";
+
+  let meta=[];
+  if(ev.date)meta.push("📅 "+new Date(ev.date+"T00:00:00").toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"}));
+  if(ev.time)meta.push("🕐 "+ev.time);
+  if(ev.location)meta.push("📍 "+ev.location);
+  document.getElementById("eventMeta").textContent=meta.join("  •  ");
+
+  const banner=document.getElementById("eventBanner");
+  if(ev.banner){
+    banner.src=ev.banner;
+    banner.style.display=ev.display?.showBanner===false?"none":"block";
+  }
+
+  if(ev.display?.showInfo===false){
+    document.getElementById("eventMeta").style.display="none";
+    document.getElementById("eventDesc").style.display="none";
+  }
+
+  const tickets=Array.isArray(ev.tickets)?ev.tickets:[];
+  const section=document.getElementById("ticketSection");
+  const list=document.getElementById("ticketList");
+
+  if(tickets.length){
+    section.classList.remove("hidden");
+    list.innerHTML="";
+    tickets.forEach((t,i)=>{
+      const id="ticket-"+i;
+      const label=document.createElement("label");
+      label.className="ticket-option";
+      label.innerHTML=`
+        <input type="radio" name="ticket" value="${i}" ${i===0?"required":""}>
+        <span class="ticket-name">${escapeText(t.name||("Tier "+(i+1)))}</span>
+        <span class="ticket-price">${money(t.price)}</span>`;
+      list.appendChild(label);
+    });
+  }
+
+  document.getElementById("registrationForm").classList.remove("hidden");
+}
+
+document.getElementById("registrationForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(!activeEvent)return;
+
+  const btn=document.getElementById("submitBtn");
+  btn.disabled=true;btn.textContent="Menyimpan...";
+
+  try{
+    const wa=normalizeWa(document.getElementById("whatsapp").value.trim());
+    const selected=document.querySelector('input[name="ticket"]:checked');
+    const ticketIndex=selected?Number(selected.value):null;
+    const ticket=ticketIndex!==null?(activeEvent.tickets?.[ticketIndex]||null):null;
+
+    /*
+      Nomor registrasi dibuat untuk memudahkan peserta
+      melakukan pengecekan nanti.
+    */
+    const registrationNumber="REG-"+Date.now().toString().slice(-8);
+
+    const data={
+      eventId:activeEvent.id,
+      eventName:activeEvent.name||"",
+      registrationNumber,
+
+      participant:{
+        fullName:document.getElementById("fullName").value.trim(),
+        storeName:document.getElementById("storeName").value.trim(),
+        whatsapp:wa,
+        address:document.getElementById("address").value.trim(),
+        email:document.getElementById("email").value.trim(),
+        shirtSize:document.getElementById("shirtSize").value
+      },
+
+      ticket:ticket?{
+        name:ticket.name||"",
+        price:Number(ticket.price||0),
+        index:ticketIndex
+      }:null,
+
+      paymentStatus:"belum_bayar",
+      approvalStatus:"menunggu",
+      attendanceStatus:"belum_hadir",
+      createdAt:serverTimestamp()
+    };
+
+    await addDoc(collection(db,"registrations"),data);
+
+    document.getElementById("registrationForm").classList.add("hidden");
+    document.getElementById("successCard").classList.remove("hidden");
+    document.getElementById("registrationNumber").textContent="Nomor Registrasi: "+registrationNumber;
+
+    window.scrollTo({top:0,behavior:"smooth"});
+
+  }catch(err){
+    console.error(err);
+    toast("Registrasi gagal disimpan. Periksa Firestore Rules.");
+    btn.disabled=false;
+    btn.textContent="Kirim Registrasi";
+  }
+});
+
+loadActiveEvent();
 </script>
 </body>
 </html>
