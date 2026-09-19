@@ -451,8 +451,7 @@ function showToast(message){
 }
 
 /*
-  Sementara menu hanya menampilkan informasi.
-  Nanti masing-masing diarahkan ke halaman:
+  Navigasi menu menuju halaman masing-masing:
   registrasi.html
   cek-registrasi.html
   approval-peserta.html
@@ -468,10 +467,10 @@ function openPage(page){
     "Pengaturan Acara": "pengaturan-acara.html"
   };
 
-  if(routes[page]){
-    // Untuk sekarang halaman belum dibuat.
-    showToast(page + " — halaman berikutnya akan dibuat.");
-    // window.location.href = routes[page];
+  const target = routes[page];
+
+  if(target){
+    window.location.href = target;
   }
 }
 </script>
